@@ -201,3 +201,135 @@ Com tudo vamos entrar no nosso IP e vamos ter o retorno.
 ![](images/37.png)
 
 #### Site
+Para o desafio precisamos criar os projetos em uma ordem de diretorios da seguinte forma.
+```sh
+[centos@ip-172-31-24-40 html]$ pwd
+/var/www/html
+```
+
+
+#### Tomcat
+> https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-8-on-centos-7
+
+#### Wordpress
+> https://linuxize.com/post/install-mysql-on-centos-7/
+
+
+sudo yum localinstall https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+
+
+oKho-swAu4:h
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'Senhatemporaria@12345';
+
+```sh
+create user magentouser@localhost identified by 'Magento123@';
+grant all privileges on magentodb.* to magentouser@localhost identified by 'Magento123@';
+flush privileges;
+```
+
+https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-on-centos-7
+
+
+sudo yum install php70w-common --skip-broken
+
+```sh
+# Redirect HTTP -> HTTPS
+server {
+    listen 80;
+    server_name blog-juliocesar.juliocesar.tk;
+
+    #include snippets/letsencrypt.conf;
+    #return 301 https://example.com$request_uri;
+}
+
+# Redirect WWW -> NON WWW
+server {
+    #listen 443 ssl http2;
+    listen 80;
+    server_name blog-juliocesar.juliocesar.tk;
+
+    #ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+    #ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+    #ssl_trusted_certificate /etc/letsencrypt/live/example.com/chain.pem;
+    #include snippets/ssl.conf;
+
+    #return 301 https://example.com$request_uri;
+}
+
+server {
+    #listen 443 ssl http2;
+    server_name blog-juliocesar.juliocesar.tk;
+
+    root /var/www/html/blog;
+    index index.php;
+
+    # SSL parameters
+    #ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+    #ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+    #ssl_trusted_certificate /etc/letsencrypt/live/example.com/chain.pem;
+    #include snippets/ssl.conf;
+    #include snippets/letsencrypt.conf;
+
+    # log files
+    #access_log /var/log/nginx/example.com.access.log;
+    #error_log /var/log/nginx/example.com.error.log;
+
+    location = /favicon.ico {
+        log_not_found off;
+        access_log off;
+    }
+
+    location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_pass unix:/run/php-fpm/www.sock;
+        fastcgi_index   index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+        expires max;
+        log_not_found off;
+    }
+
+}
+```
+
+
+#### Magento
+https://www.howtoforge.com/tutorial/how-to-install-magento-2-1-on-centos-7/
+
+```sh
+bin/magento setup:install --backend-frontname="adminlogin" \
+--key="biY8vdWx4w8KV5Q59380Fejy36l6ssUb" \
+--db-host="localhost" \
+--db-name="magentodb" \
+--db-user="magentouser" \
+--db-password="Magento123@" \
+--language="en_US" \
+--currency="USD" \
+--timezone="America/Sao_Paulo" \
+--use-rewrites=1 \
+--use-secure=0 \
+--base-url="http://loja-juliocesar.juliocesar.tk" \
+--base-url-secure="http://loja-juliocesar.juliocesar.tk" \
+--admin-user=adminuser \
+--admin-password=admin123@ \
+--admin-email=admin@newmagento.com \
+--admin-firstname=admin \
+--admin-lastname=user \
+--cleanup-database
+```
+
+> https://stackoverflow.com/questions/23948527/13-permission-denied-while-connecting-to-upstreamnginx
